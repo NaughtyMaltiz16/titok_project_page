@@ -1,0 +1,778 @@
+.lab-nav {
+  background: #ffffff; /* plain white background */
+  border-bottom: 1px solid #e5e7eb; /* subtle gray divider */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* soft neutral shadow */
+}
+
+
+/* logo + text combo */
+.brand-combo {
+  display: flex;
+  align-items: center;
+  gap: 12px;                  /* spacing between logo and text */
+  text-decoration: none;
+}
+
+/* logo size */
+.brand-logo {
+  height: 75px;               /* adjust as you like */
+  width: auto;
+  display: block;
+}
+
+/* text style */
+.brand-text {
+  font-family: 'Google Sans', 'Noto Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.15;          /* ✅ tighter line spacing */
+  color: #111;
+  text-align: left;
+  white-space: normal;        /* allows two-line wrapping */
+}
+
+
+
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+
+.publication-title {
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block a,
+.author-block span {
+  color: hsl(204, 86%, 53%); /* same as the default link blue */
+}
+
+.author-block a:hover {
+  text-decoration-thickness: 2px; /* nice hover effect */
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+
+.interpolation-panel {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.interpolation-panel .interpolation-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.interpolation-video-column {
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+#interpolation-image-wrapper {
+  width: 100%;
+}
+#interpolation-image-wrapper img {
+  border-radius: 5px;
+}
+
+/* BLUE*/
+.key-contribs {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background: linear-gradient(180deg, #f6f9ff 0%, #eef4ff 100%); /* subtle highlight */
+}
+
+.key-contribs .key-contribs-box {
+  border: 1px solid #dbe6ff;
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.08);
+  border-radius: 14px;
+}
+
+.key-contribs .title {
+  margin-bottom: 1rem;
+}
+
+.key-list {
+  list-style-type: disc;  /* restore normal bullets */
+  padding-left: 1.2rem;   /* smaller left margin for the whole list */
+}
+
+.key-list li {
+  padding-left: 0;        /* remove extra gap between bullet and text */
+  margin: 0.4rem 0;       /* reduce vertical spacing */
+  line-height: 1.5;
+}
+
+.key-list li::before {
+  font-family: "Font Awesome 5 Free"; /* ✅ correct for your setup */
+  font-weight: 900;
+  position: absolute;
+  left: 0.5rem;
+  top: 0.1rem;
+  opacity: 0.9;
+}
+
+
+/* small typographic polish */
+.key-list strong {
+  font-weight: 700;
+}
+
+.rocket-icon {
+  display: inline-block;          /* needed for transforms */
+  transform-origin: 60% 40%;      /* pivot point looks nicer */
+  animation: rocket-float 2.2s ease-in-out infinite;
+}
+
+@keyframes rocket-float {
+  0%, 100% { transform: rotate(-18deg) translateY(0); }
+  50%      { transform: rotate(-10deg) translateY(-3px); }
+}
+
+/* optional color & spacing */
+.key-title .rocket-icon i { 
+  margin-right: 8px;
+  color: #2563eb;
+  font-size: 0.95em;
+}
+/* Method section background + spacing */
+.method {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background: linear-gradient(180deg, #fbfdff 0%, #f4f8ff 100%);
+}
+
+/* Title icon + slight lift on hover */
+.method-title i {
+  margin-right: 8px;
+  color: #2563eb;
+}
+
+/* Figure styling */
+.method-figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(30, 64, 175, 0.12);
+  margin-bottom: 0.5rem;
+}
+
+/* Numbered steps with badges */
+.method-steps {
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1.25rem;
+}
+
+
+.method-steps > li {
+  position: relative;
+  counter-increment: step;
+  padding-left: 3.2rem;
+  margin: 1rem 0;
+}
+
+.method-steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #fff;
+  background: #2563eb;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+/* --- Reset nested lists (normal bullets, no numbering) --- */
+.method-steps > li ul {
+  list-style-type: disc;
+  padding-left: 1.6rem;
+  margin-top: 0.4rem;
+  counter-reset: none; /* disable counters inside */
+}
+
+.method-steps > li ul li {
+  position: static; /* remove relative positioning from counter */
+  padding-left: 0;
+}
+
+.method-steps > li ul li::before {
+  content: none; /* remove blue numbered circles */
+}
+
+/* Section look */
+.motivation-title i { color:#facc15; margin-right:8px; }
+
+/* Intro list */
+.motivation-intro { border:1px solid #dbe4ff; border-radius:12px; box-shadow:0 6px 16px rgba(37,99,235,.08); }
+.motivation-list { margin:0; padding-left:1.2rem; }
+.motivation-list li { margin:.35rem 0; line-height:1.55; }
+
+/* Cards */
+.mcard { border:1px solid #e4e9ff; border-radius:14px; box-shadow:0 8px 20px rgba(30,64,175,.08); transition:transform .2s ease, box-shadow .2s ease; }
+.mcard:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(30,64,175,.12); }
+.mcard-header { display:flex; align-items:center; gap:.6rem; padding:1rem 1.1rem .5rem 1.1rem; }
+.mcard-icon { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:#2563eb1a; color:#f30a0a; }
+.mcard-body { padding:0 1.1rem 1.1rem; }
+.mcard-body ul { margin:0; padding-left:1.1rem; }
+.mcard-body li { margin:.35rem 0; line-height:1.5; }
+.mcard-body li.weakness { color:#dc2626; }
+
+/* Responsive spacing */
+.motivation-cards { margin-top:1rem; }
+
+.math-block {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+ul li {
+  margin-bottom: 0.6rem;
+}
+.experiment-figure {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.experiments figcaption {
+  color: #666;
+  line-height: 1.5;
+}
+
+.columns.is-variable.is-5.mt-6 {
+  align-items: flex-start;
+}
+
+@media screen and (max-width: 768px) {
+  .columns.is-variable.is-5.mt-6 {
+    display: block;
+  }
+}
+
+/* --- Section (no background, clean margins) --- */
+.vp {
+  max-width: 900px;
+  margin: 64px auto;
+  padding: 0 16px;
+  text-align: center;
+}
+
+/* --- Keep the strong colorful gradient title like before --- */
+.vp h2 {
+  margin: 0 0 10px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
+  color: #000; /* plain black text */
+}
+
+.vp-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
+  color: #000; /* solid black for both text and icon */
+}
+
+.vp-icon {
+  width: 40px;      /* larger icon width */
+  height: 40px;     /* larger icon height */
+  color: inherit;   /* same color as text (black) */
+}
+
+/* --- Subtitle text (slightly darker gray) --- */
+.vp p {
+  color: #666;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Everything else (player, buttons, sliders, etc.) --- */
+.player {
+  background: #ffffffee;   /* clean white card only around video */
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  padding: 14px;
+  margin: 0 auto;
+}
+
+video {
+  width: 100%;
+  border-radius: 12px;
+  background: #fff;
+}
+.vol {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;           /* prevent it from squishing */
+}
+
+/* Volume slider styled like progress */
+#volume {
+  --fill: 100%; /* default full volume */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60px;
+  height: 8px;
+  background: transparent;
+  outline: none;
+  border-radius: 999px;
+}
+
+/* Track fill */
+#volume::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #b91c1c var(--fill),  /* dark red filled */
+    #e1e4f0 var(--fill)   /* light gray remainder */
+  );
+  border: 0;
+}
+#volume::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #b91c1c var(--fill),
+    #e1e4f0 var(--fill)
+  );
+}
+
+/* Thumb */
+#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #b91c1c;
+  margin-top: -3px;
+}
+#volume::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #b91c1c;
+}
+
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;  /* centers all buttons + volume nicely */
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: nowrap;        /* keep everything on one line */
+}
+
+/* Progress bar */
+#progress{
+  --fill: 0%;                 /* will be set from JS */
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  background: transparent;    /* let the track paint the bar */
+  outline: none;
+  border-radius: 999px;
+}
+
+/* WebKit (Chrome/Safari/Edge) track */
+#progress::-webkit-slider-runnable-track{
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #b91c1c var(--fill),      /* dark red played */
+    #e1e4f0 var(--fill)       /* light gray unplayed */
+  );
+  border: 0;
+  box-shadow: none;
+}
+
+/* Firefox track */
+#progress::-moz-range-track{
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #b91c1c var(--fill),
+    #e1e4f0 var(--fill)
+  );
+  border: 0;
+}
+
+/* Thumb */
+#progress::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; border: 2px solid #b91c1c;
+  margin-top: -3px;           /* vertically center on 10px track */
+}
+#progress::-moz-range-thumb{
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; border: 2px solid #b91c1c;
+}
+
+
+/* time below bar */
+.time {
+  display: block;
+  text-align: center;
+  margin-top: 6px;                /* space under bar */
+  font-family: monospace;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+
+.footer {
+  margin-top: 60px;
+  padding: 20px 0;
+  text-align: center;       /* ✅ centers all text and links */
+  font-size: 0.95rem;
+  color: #555;
+  background: #fafafa;      /* optional soft background */
+  border-top: 1px solid #e5e5e5;
+}
+
+.footer a {
+  color: #1a73e8;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Foldable block */
+.fold {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  padding: 0;
+  margin: 18px 0 28px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+}
+
+.fold > summary {
+  list-style: none;          /* remove default marker */
+  cursor: pointer;
+  padding: 12px 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.fold > summary::-webkit-details-marker { display: none; } /* Safari/Chrome marker */
+
+.fold[open] > summary { border-bottom: 1px solid #eef0f4; }
+
+.fold .chev {
+  transition: transform 0.18s ease;
+  font-size: 1.05rem;
+  color: #374151;
+}
+.fold[open] .chev { transform: rotate(90deg); } /* caret turns when open */
+
+.fold .fold-body {
+  padding: 14px 16px 16px;
+}
+
+.fold .fold-img {
+  display: block;
+  width: 100%;
+  max-width: 820px;
+  margin: 6px auto 14px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.fold .bullets {
+  margin: 0 0 10px 0;
+  padding-left: 1.1rem;
+}
+.fold .bullets li { margin: 6px 0; }
+
+.fold .refs {
+  margin-top: 10px;
+  font-size: 0.92rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* Sub-bullets for nested DPO points */
+.sub-bullets {
+  margin-top: 6px;
+  margin-left: 1.2rem;
+  list-style-type: circle;
+  color: #444;
+}
+.sub-bullets li {
+  margin: 4px 0;
+  font-size: 0.96rem;
+}
+
+/* Divider line between explanation and references */
+.fold-divider {
+  margin: 14px 0;
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+
+/* nested bullets under each numbered point */
+details .sub-bullets {
+  margin-top: 0.4rem;
+  margin-left: 1.4rem;
+  list-style-type: circle;
+  color: #444;
+}
+details .sub-bullets li {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+
+/* Ordered list with colored markers and more left space */
+.fold .num-points {
+  list-style: decimal;
+  margin: 0;
+  padding-left: 2.3rem;       /* ⬅️ more space before the numbers */
+}
+
+.fold .num-points > li {
+  margin: 1rem 0;             /* space between 1, 2, 3 items */
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* style the number markers */
+.fold .num-points > li::marker {
+  color: #150202;          
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding-right: 0.5rem;      /* little gap between number and text */
+}
+
+
+
+/* === Red theme for Key Contributions & Method === */
+
+/* 🔴 Key Contributions section — lighter transparent red tone */
+.key-contribs {
+  background: linear-gradient(180deg, #fff9f9 0%, #ffefef 100%);
+}
+
+/* Card styling remains subtle and clean */
+.key-contribs .key-contribs-box {
+  border: 1px solid #f6c8c8;
+  box-shadow: 0 8px 24px rgba(185, 28, 28, 0.05); /* softer, lighter shadow */
+  background: rgba(255, 255, 255, 0.9); /* semi-transparent white inside */
+}
+
+/* Red accent color */
+.key-title .rocket-icon i {
+  color: #dc2626;
+}
+/* Method section background + accents */
+.method {
+  background: rgba(245, 245, 245, 0.6); /* light gray with soft transparency */
+  backdrop-filter: blur(4px);           /* optional: gives frosted effect */
+}
+
+.method-title i {
+  color: #dc2626; /* red icon */
+}
+
+.method-figure img {
+  /* neutral soft gray shadow */
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+}
+
+/* Method step number badges -> red */
+.method-steps > li::before {
+  background: #dc2626; /* red badge */
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25);
+}
+
+/* Links inside section */
+.method a:hover {
+  color: #b91c1c;
+}
+
+
+/* 🔥 Hover effect for all publication buttons */
+.publication-links a:hover {
+  background-color: #dc2626 !important;  /* CoPe red */
+  border-color: #dc2626 !important;
+  color: #fff !important;                /* white text */
+  transition: all 0.25s ease;
+}
+
+/* make icons white too */
+.publication-links a:hover .icon {
+  color: #fff !important;
+}
+
+
+/* Safety: avoid accidental horizontal page scroll */
+html, body { overflow-x: hidden; }
+/* 📱 Make math equations smaller on mobile */
+@media (max-width: 600px) {
+  mjx-container {
+    font-size: 90% !important; /* reduce size a bit */
+  }
+}
+
+/* Optionally, make even smaller on very small screens */
+@media (max-width: 400px) {
+  mjx-container {
+    font-size: 80% !important;
+  }
+}
