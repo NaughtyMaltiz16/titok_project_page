@@ -1,32 +1,593 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>TiTok</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="description" content="TiTok: Transfer Token-level Knowledge via Contrastive Excess To Transplant LoRA">
+  <meta name="keywords" content="TiTok, LLM, Transfer, Token-level Knowledge, Contrastive Excess, LoRA">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TiTok: Transfer Token-level Knowledge via Contrastive Excess To Transplant LoRA</title>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9614VKNDNG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9614VKNDNG');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700;800&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="icon" href="./static/images/icon.png" sizes="64x64">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      },
+      chtml: { linebreaks: { automatic: true, width: 'container' } },
+      svg: { linebreaks: { automatic: true }, fontCache: 'global' } 
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root {
+      --primary: #6366f1; /* Vibrant Indigo */
+      --secondary: #ec4899; /* Playful Pink */
+      --tertiary: #14b8a6; /* Teal */
+      --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --shadow-soft: 0 20px 40px -15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 30px 60px -15px rgba(99, 102, 241, 0.15);
+      --border-radius: 24px;
+    }
+
+    body {
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .lab-nav { background: transparent; padding: 1rem 0; }
+    .brand-combo {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      font-weight: 700;
+      color: var(--primary) !important;
+      transition: transform 0.3s ease;
+    }
+    .brand-combo:hover { transform: translateY(-2px); }
+    .brand-logo { max-height: 40px; margin-right: 10px; }
+
+    /* Animated Gradient Title */
+    .hero { background: transparent; padding-top: 3rem; }
+    .title-gradient {
+      background: linear-gradient(to right, var(--primary), var(--secondary), var(--tertiary));
+      background-size: 200% auto;
+      color: #000;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 5s linear infinite;
+      font-weight: 800 !important;
+      letter-spacing: -0.03em;
+      text-align: center;
+      display: block;
+      width: 100%;
+    }
+    @keyframes shine { to { background-position: 200% center; } }
+
+    /* Playful Buttons */
+    .publication-links .button {
+      border: none;
+      background: var(--card-bg);
+      color: var(--text-main);
+      font-weight: 600;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      margin: 0.5rem;
+      border-radius: 50px;
+      backdrop-filter: blur(5px);
+    }
+    .publication-links .button:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: var(--shadow-hover);
+    }
+    .publication-links .button .icon { margin-right: 5px; }
+
+    /* Tags */
+    .tags .tag {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      border-radius: 12px;
+      font-weight: 600;
+      padding: 1rem;
+      transition: all 0.2s;
+    }
+    .tags .tag:hover { background: rgba(99, 102, 241, 0.2); }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255,255,255,0.5);
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .inner-glass {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.8);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    }
+
+    /* Details Fold */
+    details.inner-glass summary { list-style: none; }
+    details.inner-glass summary::-webkit-details-marker { display: none; }
+
+    /* Section Titles */
+    .section-title {
+      font-weight: 800;
+      margin-bottom: 2.5rem !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    /* Lists & Typography */
+    .content p { font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); }
+    .fancy-list li { margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px; }
+    .fancy-list i { margin-top: 5px; }
+
+    /* Method Steps */
+    .step-number {
+      background: var(--primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Images */
+    .styled-image {
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.3s ease;
+    }
+    .video-text {
+      font-size: 1.25rem !important; /* Adjust this value to increase size */
+      font-weight: 300;
+      color: var(--text-main) !important;
+    }
+
+    /* Optional: Make it even bigger specifically on mobile */
+    @media screen and (max-width: 768px) {
+      .video-text {
+        font-size: 1.0rem !important;
+      }
+    }
+    /* References */
+    .references {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 1.5rem;
+      margin-top: 2rem;
+    }
+    .references p { font-size: 0.9rem; line-height: 1.4; color: #64748b; margin-bottom: 0.5rem; }
+
+    /* Video Player */
+    .player-wrapper {
+      background: #000;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-hover);
+      border: 4px solid white;
+    }
+
+    /* BibTeX */
+    pre {
+      background: #1e293b !important;
+      color: #38bdf8 !important;
+      border-radius: 16px;
+      padding: 2rem !important;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Math Displays Defaults */
+    .mobile-math { display: none; }
+    .desktop-math { display: block; }
+
+    /* --- ADDED FOR MOBILE RESPONSIVENESS --- */
+    @media screen and (max-width: 768px) {
+      /* Typography & Spacing */
+      .title.is-1 { font-size: 2rem !important; line-height: 1.3; }
+      .title.is-3 { font-size: 1.5rem !important; }
+      .glass-card { padding: 1.5rem; margin-bottom: 1.5rem; }
+      .inner-glass { padding: 1.25rem; }
+      
+      /* Brand Nav Alignment Fix */
+      .brand-combo { 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        padding: 0.75rem 1rem; 
+        gap: 10px; 
+      }
+      .brand-combo br { display: none; } 
+      .brand-logo { margin: 0; max-height: 35px; } 
+      .brand-text { text-align: left; font-size: 0.85rem; line-height: 1.3; }
+
+      /* Buttons */
+      .publication-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+      .publication-links .button { margin: 0; width: calc(50% - 0.5rem); font-size: 0.85rem; padding: 0.5rem; }
+      
+      /* Images & Details */
+      .styled-image { max-width: 100% !important; margin-top: 1rem; }
+      details.has-text-centered { max-width: 100% !important; padding: 1rem !important; margin-top: 1.5rem !important; }
+      
+      /* Equation Split Toggles */
+      .desktop-math { display: none !important; }
+      .mobile-math { display: block !important; }
+      .mobile-math .MathJax_Display { margin: 0.25em 0 !important; } 
+
+      /* Video Aspect Ratio Fix */
+      .player-wrapper iframe { 
+        height: auto !important; 
+        aspect-ratio: 16 / 9; 
+        width: 100%;
+      }
+      
+      /* Misc blocks */
+      pre { padding: 1rem !important; font-size: 0.75rem; overflow-x: auto; }
+      
+      /* Center the 1, 2, 3 circles and their headings in the Method section */
+      .step-number { 
+        width: 32px; 
+        height: 32px; 
+        font-size: 0.9rem; 
+        margin: 0 auto 0.5rem auto; /* Centers the circle horizontally */
+        display: flex; 
+      }
+      #method .mb-6 > h3 {
+        display: block; /* Forces heading below the circle */
+        text-align: center; /* Centers the text */
+        margin-left: 0 !important; /* Removes desktop left-margin */
+        margin-bottom: 1.25rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>TiTok</h1>
-    <p class="subtitle">
-      Transfer Token-level Knowledge via Contrastive Excess to Transplant LoRA
-    </p>
+<nav class="navbar lab-nav" role="navigation" aria-label="main navigation">
+  <div class="navbar-center" style="display: flex; justify-content: center; width: 100%;">
+    <a class="navbar-item brand-combo" href="https://ml3-yonsei.github.io/" target="_blank" rel="noopener noreferrer">
+      <img src="./static/images/ML3_transparent.png" alt="Lab logo" class="brand-logo">
+      <span class="brand-text">Machine and Language<br>Language Lab @ Yonsei</span>
+    </a>
+  </div>
+</nav>
 
-    <p class="description">
-      Project page for our ICLR 2026 paper.
-    </p>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title title-gradient">
+            TiTok: Transfer Token-level Knowledge via Contrastive Excess To Transplant LoRA
+          </h1>
+          
+          <div class="is-size-4 publication-authors mb-2 mt-4">
+            <span class="author-block"><a href="https://sites.google.com/view/chanjoojung/" style="color: var(--primary); font-weight: 600;">Chanjoo Jung</a>,</span>
+            <span class="author-block"><a href="https://sites.google.com/view/jaehyungkim" style="color: var(--primary); font-weight: 600;">Jaehyung Kim</a></span>
+          </div>
 
-    <p class="coming-soon">
-      🚀 Coming Soon
-    </p>
+          <div class="is-size-5 publication-authors mb-5 text-muted">
+            <span class="author-block">Yonsei University</span>
+          </div>
 
-    <p class="note">
-      We are preparing the official project page.<br>
-      Stay tuned!
+          <div class="publication-links">
+            <a href="https://arxiv.org/abs/2510.04682" class="button is-normal">
+              <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
+            </a>
+            <a href="https://github.com/NaughtyMaltiz16/TiTok" class="button is-normal">
+              <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+            </a>
+            <a href="./static/ICLR26_TiTok_slides.pptx" class="button is-normal">
+              <span class="icon"><i class="fas fa-file-powerpoint" style="color: #d04423;"></i></span><span>Slides</span>
+            </a>
+            <a href="./static/poster.pdf" class="button is-normal">
+              <span class="icon"><i class="fas fa-file-pdf" style="color: #e21b1b;"></i></span><span>Poster</span>
+            </a>
+          </div>
+
+          <div class="tags is-centered mt-5">
+            <span class="tag">#LLM</span>
+            <span class="tag">#LoRA</span>
+            <span class="tag">#Contrastive Excess</span>
+            <span class="tag">#Token-level transfer</span>
+            <span class="tag">#LoRA knowledge transfer</span>
+            <span class="tag" style="background: #09cb46d9; color: white; border: none;">#ICLR2026 🎊🌴</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="glass-card">
+      <h2 class="title is-3 has-text-centered section-title">Abstract</h2>
+      <div class="content has-text-justified">
+        <p>
+          Large Language Models (LLMs) are widely applied in real world scenarios, yet fine-tuning them comes with significant computational and storage costs. Parameter-Efficient Fine-Tuning (PEFT) methods such as LoRA mitigate these costs; however, the adapted parameters are dependent on the base model and cannot be transferred across different backbones. One way to address this issue is through knowledge distillation, but its effectiveness inherently depends on training data. Recent work such as TransLoRA avoids this by generating synthetic data; nevertheless, this adds complexity since it requires training an additional discriminator model. In this paper, we propose <strong>TiTok</strong>, a new framework that enables effective LoRA Transplantation through Token-level knowledge transfer. Specifically, TiTok captures task-relevant information through a token-wise contrastive excess between a source model with and without LoRA. This excess highlights informative tokens and enables selective filtering of synthetic data, all without additional models or overhead. Through experiments on three benchmarks across multiple transfer settings, we demonstrate that TiTok is consistently effective, achieving average performance gains of +4~10% compared to baselines overall.
+        </p>
+      </div>
+    </div>
+
+    <div class="glass-card" id="motivation">
+      <h2 class="title is-3 has-text-centered section-title">
+        <i class="fas fa-lightbulb" style="color: #fbbf24;"></i> Motivation
+      </h2>
+      
+      <div class="columns is-vcentered">
+        <div class="column is-7">
+          <h3 class="title is-4" style="color: var(--tertiary);"><i class="fas fa-check-circle"></i> What is LoRA?</h3>
+          <p class="mb-4 text-muted"><strong>LoRA<sup>1</sup> (Low-Rank Adaptation)</strong> is a highly popular technique used to train LLMs efficiently. It freezes the base model and trains only a tiny, separate set of new parameters.</p>
+          
+          <div class="inner-glass" style="background: #fff0f2; border-color: #ffe4e6;">
+            <h3 class="title is-5" style="color: #e11d48;"><i class="fas fa-exclamation-triangle"></i> The Problem</h3>
+            <p style="color: #be123c;"><strong>Not Transferrable:</strong> LoRA weights are tied to the parameters of the base model. This means that LoRA adapters become mathematically incompatible when the base model changes.</p>
+          </div>
+        </div>
+        <div class="column is-5 has-text-centered">
+          <img src="./static/images/lora.gif" alt="LoRA Visualization" class="styled-image" style="max-width: 100%;">
+        </div>
+      </div>
+
+      <h3 class="title is-4 has-text-centered mt-6 mb-4">Existing Methods</h3>
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <div class="inner-glass h-100">
+            <h4 class="title is-5 mb-3" style="color: var(--primary);"><i class="fas fa-brain"></i> Knowledge Distillation<sup>2</sup></h4>
+            <p class="is-size-6 mb-2">Transfers the output distribution learned by a source model to a target model.</p>
+            <hr class="my-2">
+            <p class="is-size-6" style="color: #e11d48;"><strong>Weakness:</strong> Heavily depends on access to task-specific training data.</p>
+          </div>
+        </div>
+        
+        <div class="column is-6">
+          <div class="inner-glass h-100">
+            <h4 class="title is-5 mb-3" style="color: var(--primary);"><i class="fas fa-message"></i> TransLoRA<sup>3</sup></h4>
+            <p class="is-size-6 mb-2">Transfers LoRA knowledge via synthetic data filtered by a discriminator model.</p>
+            <hr class="my-2">
+            <p class="is-size-6" style="color: #e11d48;"><strong>Weakness:</strong> High computational cost due to the discriminator & reliance on full sequences.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="references">
+        <p>[1] Hu, Edward J., et al. LoRA: Low-Rank Adaptation of Large Language Models. ICLR, 2022.</p>
+        <p>[2] Hinton, Geoffrey, Oriol Vinyals, and Jeff Dean. Distilling the Knowledge in a Neural Network. arXiv:1503.02531, 2015.</p>
+        <p>[3] Wang, Runqian, et al. Trans-LoRA: Towards Data-Free Transferable Parameter-Efficient Finetuning. NeurIPS, vol. 37, 2024.</p>
+      </div>
+    </div>
+
+    <div class="glass-card" style="background: linear-gradient(to right bottom, #ffffff, #f0fdfa); border-left: 5px solid var(--tertiary);">
+      <h2 class="title is-3 section-title">
+        <i class="fas fa-rocket" style="color: var(--tertiary);"></i> TiTok in a Nutshell
+      </h2>
+      <ul class="fancy-list content">
+        <li><i class="fas fa-star" style="color: #fbbf24;"></i> <span><strong>TiTok</strong> stands for LoRA <strong>T</strong>ransplantat<strong>i</strong>on through <strong>Tok</strong>en-level knowledge transfer.</span></li>
+        <li><i class="fas fa-star" style="color: #fbbf24;"></i> <span><strong>Core Idea:</strong> Transfers knowledge by training selectively on the most <strong>informative tokens</strong> within synthetic data.</span></li>
+        <li><i class="fas fa-star" style="color: #fbbf24;"></i> <span>Identifies tokens via the <strong>prediction gap</strong> between the source model with and without its LoRA adapter.</span></li>
+        <li><i class="fas fa-star" style="color: #fbbf24;"></i> <span>Operates without discriminator models or additional training overhead.</span></li>
+        <li><i class="fas fa-star" style="color: #fbbf24;"></i> <span>Enables robust knowledge transfer across different model architectures, parameter sizes, and versions.</span></li>
+      </ul>
+    </div>
+
+    <div class="glass-card" id="method">
+      <h2 class="title is-3 has-text-centered section-title">
+        <i class="fas fa-cogs" style="color: var(--primary);"></i> Method
+      </h2>
+      
+      <figure class="image mb-6 has-text-centered">
+        <img src="./static/images/titok_main_figure.png" alt="TiTok pipeline overview" class="styled-image" style="width: 90%; margin: auto;">
+      </figure>
+
+      <div class="content">
+        <div class="mb-6">
+          <div class="step-number">1</div>
+          <h3 class="title is-4 is-inline-block ml-3">Synthetic Data Generation</h3>
+          <ul class="content mt-3" style="list-style-type: disc; margin-left: 2.5rem;">
+            <li>Input $k$ seed prompts to the <strong>source model</strong> to generate queries ($\mathbf{q}$) & response tokens ($y_i$).</li>
+            <li>Diversity is enforced via ROUGE-L &lt; 0.7.</li>
+          </ul>
+        </div>
+
+
+        <div class="mb-6">
+          <div class="step-number" style="background: var(--secondary);">2</div>
+          <h3 class="title is-4 is-inline-block ml-3">Contrastive Excess Score</h3>
+          
+          <ul class="content mt-3" style="list-style-type: disc; margin-left: 2.5rem;">
+            <li>
+              We divide the source model into two distinct roles to identify what LoRA actually "learned":
+              <div class="columns is-centered has-text-centered my-4">
+                <div class="column"><strong>1. "Amateur"</strong><br>(Base Model Only: $\mathcal{M}_s$)</div>
+                <div class="column"><strong>2. "Expert"</strong><br>(Base Model + LoRA: $\mathcal{M}_s + A_s$)</div>
+              </div>
+            </li>
+            
+            <li>
+              We identify informative tokens via <strong>Contrastive Excess</strong>, defined as:
+              <div class="has-text-centered my-4">
+                $$S(y_i) = L_e(y_i) - L_a(y_i)$$
+              </div>
+              <p class="has-text-left text-muted is-size-6 mb-2" style="list-style-type: none;">Where:</p>
+              
+              <div class="has-text-centered my-4 desktop-math">
+                $$L_e(y_i) = \log P_{\mathcal{M}_s + A_s}(y_i \mid \mathbf{q}, \mathbf{y}_{\lt i}), \quad L_a(y_i) = \log P_{\mathcal{M}_s}(y_i \mid \mathbf{q}, \mathbf{y}_{\lt i})$$
+              </div>
+
+              <div class="has-text-centered my-2 mobile-math">
+                $$L_e(y_i) = \log P_{\mathcal{M}_s + A_s}(y_i \mid \mathbf{q}, \mathbf{y}_{\lt i})$$
+                $$L_a(y_i) = \log P_{\mathcal{M}_s}(y_i \mid \mathbf{q}, \mathbf{y}_{\lt i})$$
+              </div>
+            </li>
+          </ul>
+          <details class="has-text-centered" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; max-width: 85%; margin: 3rem auto 3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; transition: all 0.3s ease;">  <summary style="font-weight: 600; color: var(--primary); outline: none; list-style: none;">
+              <span>💡</span> Click to see the intuition behind TiTok's contrastive excess scoring!
+            </summary>
+            <div class="mt-3 pt-3" style="border-top: 1px solid #e2e8f0;">
+              <p class="is-size-6 mb-0" style="color: var(--text-muted);"><strong>Intuition:</strong> Contrastive excess is a token-level Log-Likelihood Ratio (LLR). If the base model is uncertain but the LoRA-equipped model is highly confident, the token receives a <strong>high score</strong>. This highlights exactly where LoRA injects decisive task knowledge.</p>
+            </div>
+          </details>
+
+        <div class="mb-6">
+          <div class="step-number" style="background: var(--tertiary);">3</div>
+          <h3 class="title is-4 is-inline-block ml-3">Target LoRA Training & Filtering</h3>
+          
+          <ul class="content mt-3" style="list-style-type: disc; margin-left: 2.5rem;">
+            <li>
+              <span class="text-muted">Instead of training on everything, we focus only on the high-impact data points:</span>
+              <ol class="mt-3" style="list-style-type: decimal; margin-left: 1.5rem;">
+                <li class="mb-2"><strong>Filter Samples:</strong> Keep top synthetic data samples based on average contrastive excess scores of the tokens.</li>
+                <li class="mb-2"><strong>Filter Tokens:</strong> Select the <strong>top $k\%$</strong> of tokens with the highest individual contrastive excess scores.</li>
+                <li><strong>Selective Training:</strong> Train the target model's LoRA adapters using only these informative tokens for loss computation</li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+
+        <div class="inner-glass" style="background: linear-gradient(to right, #f8fafc, #f1f5f9); border-left: 4px solid var(--text-main); margin-top: 4.5rem;">
+          <h3 class="title is-4 mb-6"><i class="fas fa-sync-alt" style="color: var(--text-muted); margin-right: 10px;"></i> How about source and target models having different tokenizers?</h3>
+    
+          <div class="columns is-vcentered">
+            <div class="column is-7">
+              <p><strong>The Challenge:</strong> When source and target models use different tokenizers, a single word might be split differently.</p>
+              <div class="box my-3" style="background: white;">
+                <em>Example:</em> "righteousness"<br>
+                • Source: <code>["right", "eou", "sness"]</code> (LoRA masks "eou")<br>
+                • Target: <code>["righteous", "ness"]</code>
+              </div>
+            </div>
+            <div class="column is-5 has-text-centered">
+              <img src="./static/images/titok_tokenizer_algorithm_1.png" alt="Tokenizer Mismatch" class="styled-image"> 
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <p><strong>The Solution: Dual-Pointer Alignment Algorithm</strong></p>
+            <div class="has-text-centered my-4">
+              <img src="./static/images/titok_tokenizer_algorithm_2.png" alt="Dual Pointer Alignment" class="styled-image" style="max-width: 80%;">
+            </div>
+            <ul class="content mt-3" style="list-style-type: disc; margin-left: 2.5rem;">
+              <li>We use a Dual-Pointer Approach to align character spans and map masking scores ($m_i \in [0,1]$, where <strong>1 = keep</strong> and <strong>0 = mask</strong>)</li>
+              <li class="mb-2"><strong>If the source model’s tokens match without being split:</strong> Copy the masking score.</li>
+              <li><strong>If they don’t match (e.g., source tokens are split):</strong> Compute the average score over the corresponding source token span and assign it to all aligned target tokens.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="glass-card" id="experiments">
+      <h2 class="title is-3 has-text-centered section-title">
+        <i class="fas fa-chart-line" style="color: var(--secondary);"></i> Empirical Results
+      </h2>
+
+      <div class="columns is-multiline">
+        <div class="column is-12 has-text-centered mb-6">
+          <img src="./static/images/main_results.png" alt="Main Results table" class="styled-image" style="max-width: 70%;">
+          <p class="mt-3 text-muted is-size-5"><strong>Main Results:</strong> TiTok outperforms all baselines across diverse transfer settings! 🏆</p>
+        </div>
+        
+        <div class="column is-12 has-text-centered mb-6">
+          <img src="./static/images/ablation.png" alt="Ablation" class="styled-image" style="max-width: 85%;">
+          <p class="mt-3 text-muted is-size-5"><strong>Ablation Study:</strong> TiTok works best when doing both sample and token filtering.</p>
+        </div>
+        
+        <div class="column is-12 has-text-centered mb-2">
+          <img src="./static/images/external_data.png" alt="External Data" class="styled-image" style="max-width: 50%;">
+          <p class="mt-3 text-muted is-size-5"><strong>External Data:</strong> TiTok is not limited to synthetic data. <br>It well generalizes to external data too!</p>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card">
+      <h2 class="title is-3 has-text-centered section-title">
+        <i class="fas fa-play-circle" style="color: var(--primary);"></i> Video Presentation
+      </h2>
+      <p class="has-text-centered mb-4 video-text">Watch me giving a first-hand briefing on our paper! 🍿</p>
+      <p class="has-text-centered mb-4 video-text">Note: If you are watching this on mobile,<br> please rotate your phone to landscape to view the screen</p>
+      
+      <div class="player-wrapper">
+        <iframe src="https://recorder-v3.slideslive.com/?share=109605&s=bd29cff4-83a0-4b95-b3cb-58fc5acfcfd5" width="100%" height="500" allow="autoplay; fullscreen" style="border: none; display: block;"></iframe>
+      </div>
+    </div>
+    <div class="glass-card">
+      <h2 class="title is-3 section-title"><i class="fas fa-quote-right" style="color: var(--text-muted);"></i> Cite Us</h2>
+      <pre><code>@inproceedings{
+  jung2026titok,
+  title={TiTok: Transfer Token-level Knowledge via Contrastive Excess to Transplant LoRA},
+  author={ChanJoo Jung and Jaehyung Kim},
+  booktitle={The Fourteenth International Conference on Learning Representations},
+  year={2026},
+  url={https://openreview.net/forum?id=0B5K9pIdSK}
+}</code></pre>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer" style="background: transparent;">
+  <div class="content has-text-centered text-muted">
+    <p>
+      Based on templates provided by the <a href="https://github.com/nerfies/nerfies.github.io" target="_blank" style="color: var(--primary);">Nerfies</a> team.
+      <br>We thank the providers for sharing their templates for better use by others.
     </p>
   </div>
+</footer>
 
-  <script src="script.js"></script>
 </body>
 </html>
